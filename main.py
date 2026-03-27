@@ -357,3 +357,8 @@ def reject_leave(
         log_action, f"Leave {leave.id} rejected for {leave.employee_name}"
     )
     return {"message": "Leave rejected"}
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
