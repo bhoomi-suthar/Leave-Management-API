@@ -4,100 +4,77 @@
 <meta charset="UTF-8">
 <title>Login</title>
 <style>
-  * { 
-    box-sizing: border-box; 
-    margin: 0; 
-    padding: 0; 
-  }
-  body { 
-    font-family: sans-serif; 
-    background: #BEB5A9; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    height: 100vh; 
-  }
+  body {
+     font-family: sans-serif; 
+     background: #f5f5f5; 
+     display: flex; 
+     justify-content: center; 
+     align-items: center; 
+     height: 100vh; 
+     margin: 0; 
+    }
   .box { 
-    background: #E1D4C2; 
+    background: #fff; 
     padding: 32px; 
-    border-radius: 10px; 
-    width: 100%; 
-    max-width: 360px; 
-    box-shadow: 0 2px 14px rgba(41,28,14,0.12); 
-  }
+    border-radius: 8px; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
+    width: 100%; max-width: 360px; 
+}
   h2 { 
+    margin: 0 0 20px; 
     font-size: 1.3rem; 
-    color: #291C0E; 
-    margin-bottom: 20px; 
-  }
+    color: #222; 
+}
   input { 
     width: 100%; 
     padding: 9px 12px; 
-    margin-bottom: 13px; 
-    border: 1.5px solid #A78D78; 
-    border-radius: 6px; 
-    font-size: 0.87rem; 
+    margin-bottom: 12px; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    font-size: 0.88rem; 
+    box-sizing: border-box; 
     outline: none; 
-    background: #fff; 
-    color: #291C0E; 
-  }
+}
   input:focus { 
-    border-color: #6E473B; 
-  }
-  input::placeholder { 
-    color: #A78D78; 
-  }
+    border-color: #555; 
+}
   button { 
     width: 100%; 
     padding: 10px; 
-    background: #6E473B; 
-    color: #E1D4C2; 
-    border: none; 
-    border-radius: 6px; 
+    background: #222; 
+    color: #fff; border: none; 
+    border-radius: 5px; 
     font-size: 0.9rem; 
-    cursor: pointer; 
-  }
+    cursor: pointer; }
   button:hover { 
-    background: #291C0E; 
-  }
+    background: #444; 
+}
   .err { 
-    color: #6E473B; 
+    color: #c0392b; 
     font-size: 0.82rem; 
     margin-bottom: 10px; 
-    font-weight: 600; 
-  }
+}
   p { 
-    margin-top: 14px; 
-    font-size: 0.82rem; 
-    color: #6E473B; 
+    margin-top: 16px; 
+    font-size: 0.83rem; 
+    color: #666; 
     text-align: center; 
-  }
+}
   a { 
-    color: #291C0E; 
-    font-weight: 600; 
-    text-decoration: none; 
+    color: #222; 
     }
 </style>
 </head>
 <body>
 <div class="box">
-  <h2>Welcome Back</h2>
+  <h2>Login Page</h2>
   {% if error %}<p class="err">{{ error }}</p>{% endif %}
-  <form action="/login" method="post" onsubmit="hashPass(event)">
+  <form action="/login" method="post">
     <input name="username" placeholder="Username" required />
-    <input id="pwd" name="password" placeholder="Password" type="password" required />
+    <input name="password" placeholder="Password" type="password" required />
     <button type="submit">Login</button>
   </form>
-  <p>Create an account &nbsp;<a href="/">Sign Up</a></p>
+  <p>Create an account <a href="/">Sign Up</a></p>
 </div>
-<script>
-async function hashPass(e) {
-  e.preventDefault();
-  const p = document.getElementById('pwd');
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(p.value));
-  p.value = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-  e.target.submit();
-}
-</script>
 </body>
 </html>
