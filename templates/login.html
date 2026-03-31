@@ -3,9 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
-
-<script src="https://cdn.jsdelivr.net/npm/js-sha256@0.9.0/src/sha256.min.js"></script>
-
 <style>
   body {
      font-family: sans-serif; 
@@ -65,31 +62,19 @@
 }
   a { 
     color: #222; 
-}
+    }
 </style>
 </head>
-
 <body>
 <div class="box">
   <h2>Login Page</h2>
-
   {% if error %}<p class="err">{{ error }}</p>{% endif %}
-
-  <form action="/login" method="post" onsubmit="hashPassword()">
+  <form action="/login" method="post">
     <input name="username" placeholder="Username" required />
-    <input id="password" name="password" placeholder="Password" type="password" required />
+    <input name="password" placeholder="Password" type="password" required />
     <button type="submit">Login</button>
   </form>
-
   <p>Create an account <a href="/">Sign Up</a></p>
 </div>
-
-<script>
-function hashPassword() {
-    var passwordField = document.getElementById("password");
-    passwordField.value = sha256(passwordField.value);
-}
-</script>
-
 </body>
 </html>
