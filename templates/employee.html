@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Employee Panel</title>
+<style>
+  body { 
+    font-family: sans-serif; 
+    max-width: 900px; 
+    margin: 40px auto; 
+    padding: 0 20px; 
+    color: #222; 
+  }
+  h1 { 
+    font-size: 1.3rem; 
+  }
+  p.sub { 
+    color: #888; 
+    font-size: 0.85rem; 
+    margin-bottom: 20px; 
+  }
+  a { 
+    color: #888; 
+    font-size: 0.85rem; 
+  }
+  h2 { 
+    font-size: 1rem; 
+    margin-top: 30px; 
+    margin-bottom: 12px; 
+  }
+  .form-group { 
+    margin-bottom: 10px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 4px; 
+    max-width: 320px; 
+  }
+  .form-group label { 
+    font-size: 0.82rem; 
+    color: #555; 
+  }
+  .form-group input, .form-group select, .form-group textarea { 
+    padding: 7px 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    font-size: 0.85rem; 
+    font-family: sans-serif; 
+    outline: none; 
+  }
+  textarea { 
+    resize: vertical; 
+    min-height: 65px; 
+  }
+  .date-row { 
+    display: flex; 
+    gap: 10px; 
+  }
+  .date-row .form-group { 
+    flex: 1; 
+    max-width: none; 
+  }
+  button { 
+    padding: 8px 20px; 
+    background: #222; 
+    color: #fff; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 0.85rem; 
+    margin-top: 6px; 
+  }
+  hr { 
+    border: none; 
+    border-top: 1px solid #eee; 
+    margin: 28px 0; 
+  }
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    font-size: 0.88rem; 
+  }
+  th { 
+    text-align: left; 
+    padding: 10px 12px; 
+    border-bottom: 2px solid #eee; 
+    color: #555; 
+  }
+  td { 
+    padding: 10px 12px; 
+    border-bottom: 1px solid #f0f0f0; 
+  }
+  tr:hover td { 
+    background: #fafafa; 
+  }
+  .badge { 
+    padding: 2px 10px; 
+    border-radius: 12px; 
+    font-size: 0.75rem; 
+  }
+  .pending  { 
+    background: #fff8e1; 
+    color: #b45309; 
+  }
+  .approved { 
+    background: #f0fdf4; 
+    color: #166534; 
+  }
+  .rejected { 
+    background: #fef2f2; 
+    color: #991b1b; 
+  }
+  .empty { 
+    text-align: center; 
+    padding: 30px; 
+    color: #aaa; 
+    }
+</style>
+</head>
+<body>
+<a href="/login-page">Back</a>
+<a href="/login-page">Logout</a>
+<h1>Employee Panel</h1>
+
+<h2>Apply for Leave</h2>
+<form action="/apply-leave" method="post">
+  <input type="hidden" name="token" value="{{ token }}" />
+  <div class="form-group">
+    <label>Employee Name</label>
+    <input type="text" name="employee_name" value="{{ user.username }}" required />
+  </div>
+  <div class="form-group">
+    <label>Leave Type</label>
+    <select name="leave_type" required>
+      <option value="">Select...</option>
+      <option>Sick Leave</option>
+      <option>Casual Leave</option>
+      <option>Study Leave</option>
+      <option>Emergency Leave</option>
+      <option>Unpaid Leave</option>
+    </select>
+  </div>
+  <div class="date-row">
+    <div class="form-group">
+      <label>Start Date</label>
+      <input type="date" name="start_date" required />
+    </div>
+    <div class="form-group">
+      <label>End Date</label>
+      <input type="date" name="end_date" required />
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Reason</label>
+    <textarea name="reason" placeholder="Reason..." required></textarea>
+  </div>
+  <button type="submit">Submit</button>
+</form>
+
+<hr>
+
+<h2>My Leaves</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Reason</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for l in leaves %}
+    <tr>
+      <td>{{ l.leave_type }}</td>
+      <td>{{ l.start_date }}</td>
+      <td>{{ l.end_date }}</td>
+      <td>{{ l.reason }}</td>
+      <td><span class="badge {{ l.status }}">{{ l.status }}</span></td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" class="empty">No requests yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</body>
+</html>

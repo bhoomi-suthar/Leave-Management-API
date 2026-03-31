@@ -3,13 +3,14 @@ from jose import jwt
 from .database import SessionLocal
 import os
 from dotenv import load_dotenv
+from typing import Generator
 
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 
-def get_db():
+def get_db() -> Generator:
     db = SessionLocal()
     try:
         yield db
