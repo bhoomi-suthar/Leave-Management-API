@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
 <style>
   body {
      font-family: sans-serif; 
@@ -65,16 +68,36 @@
     }
 </style>
 </head>
+
 <body>
 <div class="box">
   <h2>Login Page</h2>
+
   {% if error %}<p class="err">{{ error }}</p>{% endif %}
-  <form action="/login" method="post">
+
+  <form action="/login" method="post" onsubmit="preparePassword(); return true;">
     <input name="username" placeholder="Username" required />
-    <input name="password" placeholder="Password" type="password" required />
+
+    <!-- Visible password field - NO name so plaintext not sent -->
+    <input id="realPassword" placeholder="Password" type="password" required />
+
+    <!-- This sends encrypted password in payload as "password" -->
+    <input type="hidden" id="encryptedPassword" name="password">
+
     <button type="submit">Login</button>
   </form>
+
   <p>Create an account <a href="/">Sign Up</a></p>
 </div>
+
+<script>
+function preparePassword() {
+    var real = document.getElementById("realPassword").value;
+    if (!real) return;
+    var encrypted = CryptoJS.SHA256(real).toString();
+    document.getElementById("encryptedPassword").value = encrypted;
+}
+</script>
+
 </body>
 </html>
